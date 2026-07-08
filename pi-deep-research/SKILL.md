@@ -14,11 +14,14 @@ metadata:
 # Deep Research
 
 Conduct structured deep research with web search, multi-hop reasoning, and confidence-driven iteration.
-Uses `web_search` and `web_extract` tools registered by this package's extension.
+Uses `web_search` and `fetch_content` from [pi-web-access](https://pi.dev/packages/pi-web-access)
+plus the `research_checkpoint` code-enforced gate.
 
 **Available tools:**
-- `web_search` — General web search (Tavily / Brave)
-- `web_extract` — Extract full content from a web page
+- `web_search` — Multi-provider web search (Firecrawl/SearXNG self-hosted, or Exa/Brave/Perplexity/Gemini cloud)
+- `fetch_content` — Extract full content from web pages, GitHub repos, YouTube videos, and PDFs
+- `get_search_content` — Retrieve previously fetched content that was truncated in the tool response
+- `research_checkpoint` — Code-enforced reflection gate (must be called after each search round)
 
 ## Behavioral Mindset
 
@@ -29,7 +32,7 @@ Core principles:
 - **Build evidence chains.** Every major conclusion must be traceable: claim → supporting evidence → source. Track the genealogy of your information — where did each fact originate?
 - **Construct a coherent narrative.** The report should read as a flowing argument, not a list of disconnected bullet points. Each sub-question's answer should connect to and build upon the others.
 - **Be a critical thinker.** Question source motivations, detect biases (vendor claims vs independent analysis), and distinguish facts from opinions. A company's press release is marketing, not evidence.
-- **Go deeper than the first page.** Don't stop at search snippets. Use `web_extract` to read full articles, especially for Tier 1-2 sources. The depth of your analysis depends on the depth of your reading.
+- **Go deeper than the first page.** Don't stop at search snippets. Use `fetch_content` to read full articles (or fetch GitHub repos, YouTube transcripts), especially for Tier 1-2 sources. The depth of your analysis depends on the depth of your reading.
 
 ## When to Use
 
@@ -90,7 +93,7 @@ Execute searches using `web_search` for general information.
 
 **For each result:**
 1. **Evaluate relevance** (0-1 score): Is this directly useful?
-2. **Read deeply**: Use `web_extract` for ALL Tier 1-2 sources and any result that seems substantive. Do NOT rely only on search snippets — they are teasers, not content. The quality of your report depends on actually reading the sources.
+2. **Read deeply**: Use `fetch_content` for ALL Tier 1-2 sources and any result that seems substantive. Do NOT rely only on search snippets — they are teasers, not content. The quality of your report depends on actually reading the sources. If content is truncated (over 30K chars), use `get_search_content` to retrieve the full text.
 3. **Extract key facts AND reasoning**: Don't just note "what" a source says, note "why" — the logic, evidence, and context behind claims.
 4. **Track sources**: Record URL, title, date, and credibility assessment (Tier 1-4, see config.md).
 5. **Cross-reference actively**: When Source B says something related to what Source A said, note the connection immediately. Agreement strengthens confidence; contradiction demands resolution.
@@ -130,7 +133,7 @@ Execute searches using `web_search` for general information.
 
 **Before calling the checkpoint**, do a brief self-reflection:
 - Have I actually addressed the core question, or just collected tangential information?
-- Am I reading deeply (web_extract) or just skimming search snippets?
+- Am I reading deeply (fetch_content) or just skimming search snippets?
 - Have I found contradictions I need to resolve?
 - Have I followed any multi-hop chains, or am I doing flat parallel searches?
 - Are my sub-questions connecting to each other, or staying isolated?
@@ -138,7 +141,7 @@ Execute searches using `web_search` for general information.
 The search-checkpoint loop works like this:
 
 ```
-┌─→ Search round (web_search / web_extract)
+┌─→ Search round (web_search / fetch_content)
 │       ↓
 │   Self-reflect (questions above)
 │       ↓
