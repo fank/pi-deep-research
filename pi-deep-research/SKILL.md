@@ -74,18 +74,15 @@ Before searching, spend 30 seconds understanding the request:
 
 4. **Plan the search strategy**: For each sub-question, draft 1-2 search queries. Prefer specific queries over broad ones. Include domain-specific terms.
 
-5. **Present the plan to the user and STOP**. Display:
+5. **Present the plan and start authorized research**. Display:
    - Research depth & type
    - Sub-questions list (showing how they connect)
    - Planned search queries
    - Estimated search count and time budget
 
-   Then ask: "Here is the research plan. Ready to proceed? You can: 1) Approve and start 2) Modify sub-questions 3) Change depth level 4) Add focus areas"
+   An explicit request to research already authorizes execution. Once depth is known (from the original request or the depth-selection reply), present the plan as a brief progress update and proceed directly to Phase 2 in the same turn. Depth selection is the only required preliminary question; no separate plan acknowledgment is needed.
 
-   **Do NOT proceed to Phase 2 until the user explicitly approves.** 
-   Short confirmations like "yes", "ok", "go", "start", "looks good" = approved.
-   Any modification request = revise the plan and present again for approval.
-   This is a hard gate — no exceptions.
+   If the user explicitly requested a plan only or asked to approve it before execution, present the plan and wait instead. When the user modifies an authorized research request, incorporate the changes and continue unless they explicitly ask you to pause.
 
 ### Phase 2 — Search & Gather
 
